@@ -41,21 +41,24 @@ def search_car_by_number(car_number):
             # 여기에 데이터 없음 체크 추가
             if not rows or len(rows) == 0:
                 # 빈 데이터로 차량 정보만 저장
-                car = Car.objects.create(
-                    number=car_number,
-                    name='미등록 차량',
-                    car_type='정보없음',
-                    year=0,
-                    is_manual_input=True  # 수동입력 필요 표시
-                )
+                # car = Car.objects.create(
+                #     number=car_number,
+                #     name='미등록 차량',
+                #     car_type='정보없음',
+                #     year=0,
+                #     is_manual_input=True  # 수동입력 필요 표시
+                # )
                 
+                # return {
+                #     'success': False,
+                #     'message': '차량 정보를 찾을 수 없습니다. 직접 입력해주세요.',
+                #     'car_id': car.id
+                # }
                 return {
-                    'success': False,
-                    'message': '차량 정보를 찾을 수 없습니다. 직접 입력해주세요.',
-                    'car_id': car.id
+                    'exist': False
                 }
  
-            saved_data = []  # 저장된 데이터 관리를 위한 리스트
+            datas = [] # 저장된 데이터 관리를 위한 리스트
             
             for row in rows:
                 car_info = {
@@ -67,6 +70,29 @@ def search_car_by_number(car_number):
                     'buy_count': convert_to_int(row.find_element(By.CSS_SELECTOR, "td:nth-child(6)").text),
                     'buy_average': convert_to_int(row.find_element(By.CSS_SELECTOR, "td:nth-child(7)").text)
                 }
+
+                datas.append (car_info)
+
+            return {
+                'exist': True,
+                'datas': datas
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 try:
                     car, created = Car.objects.update_or_create(

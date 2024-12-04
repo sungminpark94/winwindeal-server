@@ -1,18 +1,42 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from car.car_selenium import search_car_by_number
+from car.car_selenium import search_car_by_number
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Car, Price
+import sys
 
 # 회원 목록을 보여주는 기능
 # /car/price/search?number=12가1234
 def search_car_price_view(request):
     car_number = request.GET.get('number')
-    search_car_by_number(car_number)
-    return JsonResponse(
-        {'message': car_number}
+    datas = search_car_by_number()
+    if not datas['exist'] :
+        #빈 데이터로 차량 정보만 저장
+        car = Car.objects.create(
+            number=car_number,
+            name='미등록 차량',
+            car_type='정보없음',
+            year=0,
+            is_manual_input=True  # 수동입력 필요 표시
+        )
+
+        return JsonResponse( 
+            {'message': '조회안됨',
+             'exist': False,
+             'car_id': car.id
+             }
+        )
+    
+    result = {
+         'min_price': sys.maxint,
+         'data': [ ]
+    }
+
+    return JsonResponse( car_info,
+        {'message': car_info }
     )
 
 def car_data(request):
