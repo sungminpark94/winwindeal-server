@@ -9,7 +9,7 @@ COPY ./requirements.txt /wwd/
 
 # 작업 디렉토리 설정
 WORKDIR /wwd
-RUN mkdir -p static staticfiles
+RUN mkdir -p staticfiles
 
 
 # MySQL 클라이언트 설치
