@@ -28,4 +28,9 @@ WORKDIR /wwd/app
 RUN mkdir -p /wwd && chmod -R 755 /wwd
 
 # Gunicorn을 사용하여 애플리케이션 실행
-CMD ["gunicorn", "winwindeal_be.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2"]
+# CMD ["gunicorn", "winwindeal_be.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "2"]
+
+# 변경된 코드: 스크립트를 사용하여 애플리케이션 실행
+COPY ./scripts /scripts
+RUN chmod +x /scripts/run.sh
+CMD ["/scripts/run.sh"]
