@@ -16,7 +16,8 @@ def convert_to_int(value):
 
 def search_car_by_number(car_number):
     options = Options()
-    options.add_argument("--start-maximized")
+    options.add_argument("--headless=new")  # 헤드리스 모드 활성화
+    options.add_argument("--window-size=1920,1080")  # 창 크기 설정
     options.add_experimental_option("detach", True)
 
     driver = webdriver.Chrome(options=options)
@@ -40,20 +41,7 @@ def search_car_by_number(car_number):
             #####
             # 여기에 데이터 없음 체크 추가
             if not rows or len(rows) == 0:
-                # 빈 데이터로 차량 정보만 저장
-                # car = Car.objects.create(
-                #     number=car_number,
-                #     name='미등록 차량',
-                #     car_type='정보없음',
-                #     year=0,
-                #     is_manual_input=True  # 수동입력 필요 표시
-                # )
                 
-                # return {
-                #     'success': False,
-                #     'message': '차량 정보를 찾을 수 없습니다. 직접 입력해주세요.',
-                #     'car_id': car.id
-                # }
                 return {
                     'exist': False
                 }
@@ -76,56 +64,6 @@ def search_car_by_number(car_number):
             return {
                 'exist': True,
                 'datas': datas
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                try:
-                    car, created = Car.objects.update_or_create(
-                        number=car_number,
-                        defaults={
-                            'name': car_info['name'],
-                            'car_type': car_info['car_type'],
-                            'year': car_info['year']  # year 필드 추가
-                        }
-                    )
-
-                    price = Price.objects.create(
-                        car=car,
-                        year=car_info['year'],
-                        sell_count=car_info['sell_count'],
-                        sell_average=car_info['sell_average'],
-                        buy_count=car_info['buy_count'],
-                        buy_average=car_info['buy_average']
-                    )
-                    
-                    saved_data.append({
-                        'car': car,
-                        'price': price
-                    })
-
-                except Exception as e:
-                    print(f"DB 저장 중 오류: {e}")
-                    continue  # 다음 데이터 처리 진행
-
-            return {
-                'success': True,
-                'message': '차량 정보가 성공적으로 저장되었습니다.',
-                'data': saved_data
             }
 
         except Exception as e:

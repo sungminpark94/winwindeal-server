@@ -16,10 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic.base import RedirectView  # base에서 import
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('user.urls')),  # /user/ 형태로 주소가 만들어집니다
     path('car/', include('car.urls')),  # /car/ 형태로 주소가 만들어집니다
-    path('apply/', include('apply.urls')),  # /apply/ 형태로 주소가 만들어집니다
+    path('apply/', include('apply.urls')),
 ]
