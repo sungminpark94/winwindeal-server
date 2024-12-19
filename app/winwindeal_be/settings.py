@@ -110,7 +110,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # STATIC_ROOT 추가
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # 필요한 경우 STATICFILES_DIRS도 추가
 STATICFILES_DIRS = [
