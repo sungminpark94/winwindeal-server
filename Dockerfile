@@ -24,7 +24,6 @@ RUN pip3 install gunicorn
 # 애플리케이션 코드 복사
 COPY ./app /wwd/app
 WORKDIR /wwd/app
-RUN python manage.py collectstatic --noinput
 
 
 
