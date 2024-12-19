@@ -79,6 +79,9 @@ DATABASES = {
         "NAME": os.getenv("DB_NAME", "winwindeal"),
         "USER": os.getenv("DB_USER", "root"),
         "PASSWORD": os.getenv("DB_PASSWORD", "ozcoding"),
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        }
     }
 }
 # Auth user model
@@ -107,10 +110,10 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # STATIC_ROOT 추가
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # 필요한 경우 STATICFILES_DIRS도 추가
 STATICFILES_DIRS = [

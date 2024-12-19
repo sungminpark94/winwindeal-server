@@ -9,6 +9,8 @@ COPY ./requirements.txt /wwd/
 
 # 작업 디렉토리 설정
 WORKDIR /wwd
+RUN mkdir -p static staticfiles
+
 
 # MySQL 클라이언트 설치
 RUN apt-get update \
@@ -22,6 +24,8 @@ RUN pip3 install gunicorn
 # 애플리케이션 코드 복사
 COPY ./app /wwd/app
 WORKDIR /wwd/app
+RUN python manage.py collectstatic --noinput
+
 
 
 # 소켓 파일 생성 디렉토리 권한 설정
