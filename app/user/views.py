@@ -30,7 +30,7 @@ TOKEN_SETTINGS = {
     "COOKIE_SECURE": bool(os.getenv('COOKIE_SECURE')),  # HTTPS에서만 쿠키 전송
     "COOKIE_HTTPONLY": bool(os.getenv('COOKIE_HTTPONLY')),# JavaScript에서 쿠키 접근 불가
     "COOKIE_SAMESITE": os.getenv('COOKIE_SAMESITE'),
-    "COOKIE_DOMAIN": os.getenv('COOKIE_DOMAIN')  # 도메인 추가
+    "COOKIE_DOMAIN": os.getenv('COOKIE_DOMAIN', "")  # 도메인 추가
 }
 
 def set_token_cookies(response, tokens):
@@ -53,6 +53,7 @@ def set_token_cookies(response, tokens):
         samesite=TOKEN_SETTINGS["COOKIE_SAMESITE"],
         domain=TOKEN_SETTINGS["COOKIE_DOMAIN"]
     )
+
 
 def delete_token_cookies(response):
     """토큰을 안전한 쿠키로 설정"""
@@ -112,7 +113,6 @@ def kakao_callback_view(request):
         )
 
         if not token_response.ok:
-            print("Kakao token error:", token_response.text)  # 디버깅 로그 추가
             return JsonResponse({"error": "Failed to obtain Kakao token"}, status=400)
 
         access_token = token_response.json().get("access_token")
@@ -124,11 +124,9 @@ def kakao_callback_view(request):
         )
 
         if not profile_response.ok:
-            print("Kakao profile error:", profile_response.text)  # 디버깅 로그 추가
             return JsonResponse({"error": "Failed to get Kakao profile"}, status=400)
 
         profile_data = profile_response.json()
-        print("Kakao profile data:", profile_data)  # 디버깅 로그 추가
 
         # 사용자 생성 또는 조회
         username = f"k#{profile_data['id']}"
@@ -150,13 +148,13 @@ def kakao_callback_view(request):
         tokens = {"access": str(refresh.access_token), "refresh": str(refresh)}
 
         # 프론트엔드로 리다이렉트
-        response = redirect(settings.FRONTEND_URL)
+        # response = redirect(settings.FRONTEND_URL)
+        response = redirect('http://localhost:3000/login')
         set_token_cookies(response, tokens)
 
         return response
 
     except Exception as e:
-        print(f"Kakao callback error: {str(e)}")  # 디버깅 로그 추가
         return JsonResponse({"error": str(e)}, status=500)
 
 
@@ -164,8 +162,6 @@ def kakao_callback_view(request):
 @authentication_classes([CookieJWTAuthentication])
 @permission_classes([IsAuthenticated])
 def islogin_view(request):
-    print(request.COOKIES.get("access_token"))
-    print("@@@@@@@@@@@@@@@@@@@@", request.user)
     if request.user:
         return JsonResponse({"success": True})
 
@@ -189,7 +185,6 @@ def logout_view(request):
         delete_token_cookies(response)
         return response
     except Exception as e:
-        print(f"Logout error: {str(e)}")  # 디버깅 로그 추가
         return JsonResponse({"error": str(e)}, status=400)
 
 
@@ -198,7 +193,6 @@ def logout_view(request):
 def token_refresh_view(request):
     """토큰 갱신 뷰"""
     try:
-        print("hihihi", request.get_full_path)
         refresh_token = request.COOKIES.get("refresh_token")
 
         if not refresh_token:
@@ -209,7 +203,6 @@ def token_refresh_view(request):
         set_token_cookies(response, tokens)
         return response
     except Exception as e:
-        print(f"Token refresh error: {str(e)}")  # 디버깅 로그 추가
         return JsonResponse({"error": str(e)}, status=400)
 
 
@@ -229,5 +222,4 @@ def get_user_profile(request):
         }
         return JsonResponse(profile_data)
     except Exception as e:
-        print(f"Profile fetch error: {str(e)}")  # 디버깅 로그 추가
         return JsonResponse({"error": str(e)}, status=400)

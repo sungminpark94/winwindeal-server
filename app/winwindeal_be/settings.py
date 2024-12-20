@@ -15,8 +15,8 @@ DEV = True if os.getenv('DEV', False) else False
 DEBUG = DEV
 
 ALLOWED_HOSTS = [
-    "localhost:3000",
-    "127.0.0.1:3000",
+    "localhost",
+    "127.0.0.1",
     "winwindeal.shop",
     "api.winwindeal.shop",
 ]
