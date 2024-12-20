@@ -11,7 +11,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'skphw(ps)4g2$6u(=xbwd60e9+7klc8_tc5!58*u-)707w0-v&')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEV = True if os.getenv('DEV', False) else False
+DEBUG = DEV
 
 ALLOWED_HOSTS = ['*']
 
@@ -218,7 +219,7 @@ SIMPLE_JWT = {
 # Security settings
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
-CSRF_COOKIE_SAMESITE = 'NONE'
+CSRF_COOKIE_SAMESITE = 'NONE' if DEV else 'LAX'
 CSRF_COOKIE_SECURE = False
 CSRF_COOKIE_HTTPONLY = True
 CSRF_TRUSTED_ORIGINS = [
@@ -230,7 +231,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:3000",
 ]
 SESSION_COOKIE_SECURE = False
-SESSION_COOKIE_SAMESITE = 'NONE'
+SESSION_COOKIE_SAMESITE = 'NONE' if DEV else 'LAX'
 
 
 
