@@ -148,8 +148,8 @@ def kakao_callback_view(request):
         tokens = {"access": str(refresh.access_token), "refresh": str(refresh)}
 
         # 프론트엔드로 리다이렉트
-        # response = redirect(settings.FRONTEND_URL)
-        response = redirect('http://localhost:3000/login')
+        response = redirect(settings.FRONTEND_URL)
+        # response = redirect('http://localhost:3000/login')
         set_token_cookies(response, tokens)
 
         return response
