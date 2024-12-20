@@ -14,16 +14,12 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'skphw(ps)4g2$6u(=xbwd60e9+7klc8_tc5
 DEV = True if os.getenv('DEV', False) else False
 DEBUG = DEV
 
-ALLOWED_LIST = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://winwindeal.shop",
-    "https://winwindeal.shop",
-    "http://api.winwindeal.shop",
-    "https://api.winwindeal.shop",
+ALLOWED_HOSTS = [
+    "localhost:3000",
+    "127.0.0.1:3000",
+    "winwindeal.shop",
+    "api.winwindeal.shop",
 ]
-
-ALLOWED_HOSTS = ALLOWED_LIST
 
 # Application definition
 INSTALLED_APPS = [
@@ -123,7 +119,14 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings
-CORS_ALLOWED_ORIGINS = ALLOWED_LIST
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://winwindeal.shop",
+    "https://winwindeal.shop",
+    "http://api.winwindeal.shop",
+    "https://api.winwindeal.shop",
+]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
     "GET",
@@ -148,7 +151,7 @@ CORS_ALLOW_HEADERS = [
 
 
 # CSRF
-CSRF_TRUSTED_ORIGINS = ALLOWED_LIST
+CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
 CSRF_COOKIE_SAMESITE = os.getenv('CSRF_COOKIE_SAMESITE')
 CSRF_COOKIE_SECURE = bool(os.getenv('CSRF_COOKIE_SECURE'))
 CSRF_COOKIE_HTTPONLY = bool(os.getenv('CSRF_COOKIE_HTTPONLY'))
