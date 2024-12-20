@@ -29,6 +29,7 @@ TOKEN_SETTINGS = {
     "COOKIE_SECURE": True,  # HTTPS에서만 쿠키 전송
     "COOKIE_HTTPONLY": True,  # JavaScript에서 쿠키 접근 불가
     "COOKIE_SAMESITE": "None",
+    "COOKIE_DOMAIN": ".winwindeal.shop"  # 도메인 추가
 }
 
 
@@ -41,6 +42,7 @@ def set_token_cookies(response, tokens):
         httponly=TOKEN_SETTINGS["COOKIE_HTTPONLY"],
         secure=TOKEN_SETTINGS["COOKIE_SECURE"],
         samesite=TOKEN_SETTINGS["COOKIE_SAMESITE"],
+        domain=TOKEN_SETTINGS["COOKIE_DOMAIN"]
     )
     response.set_cookie(
         "refresh_token",
@@ -49,6 +51,7 @@ def set_token_cookies(response, tokens):
         httponly=TOKEN_SETTINGS["COOKIE_HTTPONLY"],
         secure=TOKEN_SETTINGS["COOKIE_SECURE"],
         samesite=TOKEN_SETTINGS["COOKIE_SAMESITE"],
+        domain=TOKEN_SETTINGS["COOKIE_DOMAIN"]
     )
 
 def delete_token_cookies(response):
@@ -60,6 +63,7 @@ def delete_token_cookies(response):
         httponly=TOKEN_SETTINGS["COOKIE_HTTPONLY"],
         secure=TOKEN_SETTINGS["COOKIE_SECURE"],
         samesite=TOKEN_SETTINGS["COOKIE_SAMESITE"],
+        domain=TOKEN_SETTINGS["COOKIE_DOMAIN"]
     )
     response.set_cookie(
         "refresh_token",
@@ -68,6 +72,7 @@ def delete_token_cookies(response):
         httponly=TOKEN_SETTINGS["COOKIE_HTTPONLY"],
         secure=TOKEN_SETTINGS["COOKIE_SECURE"],
         samesite=TOKEN_SETTINGS["COOKIE_SAMESITE"],
+        domain=TOKEN_SETTINGS["COOKIE_DOMAIN"]
     )
 
 @api_view(["GET"])
