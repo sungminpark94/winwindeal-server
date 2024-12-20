@@ -214,12 +214,17 @@ SIMPLE_JWT = {
 # Security settings
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
+CSRF_COOKIE_SAMESITE = 'NONE'
 CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = True
 CSRF_TRUSTED_ORIGINS = [
+    'http://winwindeal.shop',
+    'https://winwindeal.shop',
+    'http://www.winwindeal.shop',
+    'https://www.winwindeal.shop',
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 ]
-CSRF_COOKIE_SAMESITE = 'NONE'
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'NONE'
 
