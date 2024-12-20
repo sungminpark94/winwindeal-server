@@ -3,6 +3,7 @@
 import uuid
 import json
 import requests
+import os
 import base64
 from datetime import datetime, timedelta
 from django.conf import settings
@@ -26,12 +27,11 @@ from user.autentication import CookieJWTAuthentication
 TOKEN_SETTINGS = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
-    "COOKIE_SECURE": True,  # HTTPS에서만 쿠키 전송
-    "COOKIE_HTTPONLY": True,  # JavaScript에서 쿠키 접근 불가
-    "COOKIE_SAMESITE": "None",
-    "COOKIE_DOMAIN": ".winwindeal.shop"  # 도메인 추가
+    "COOKIE_SECURE": bool(os.getenv('COOKIE_SECURE')),  # HTTPS에서만 쿠키 전송
+    "COOKIE_HTTPONLY": bool(os.getenv('COOKIE_HTTPONLY')),# JavaScript에서 쿠키 접근 불가
+    "COOKIE_SAMESITE": os.getenv('COOKIE_SAMESITE'),
+    "COOKIE_DOMAIN": os.getenv('COOKIE_DOMAIN')  # 도메인 추가
 }
-
 
 def set_token_cookies(response, tokens):
     """토큰을 안전한 쿠키로 설정"""

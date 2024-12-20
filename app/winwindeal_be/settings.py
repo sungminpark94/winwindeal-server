@@ -14,7 +14,16 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'skphw(ps)4g2$6u(=xbwd60e9+7klc8_tc5
 DEV = True if os.getenv('DEV', False) else False
 DEBUG = DEV
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_LIST = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://winwindeal.shop",
+    "https://winwindeal.shop",
+    "http://api.winwindeal.shop",
+    "https://api.winwindeal.shop",
+]
+
+ALLOWED_HOSTS = ALLOWED_LIST
 
 # Application definition
 INSTALLED_APPS = [
@@ -64,13 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'winwindeal_be.wsgi.application'
 
-# Database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 # DB연결 정보
 DATABASES = {
     "default": {
@@ -112,11 +114,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-
-# STATIC_ROOT 추가
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# 필요한 경우 STATICFILES_DIRS도 추가
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
@@ -125,18 +123,8 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://192.168.0.239:3000",
-    "http://winwindeal.shop",
-    "https://winwindeal.shop",
-    "http://api.winwindeal.shop",
-    "https://api.winwindeal.shop",
-]
-
+CORS_ALLOWED_ORIGINS = ALLOWED_LIST
 CORS_ALLOW_CREDENTIALS = True
-
 CORS_ALLOW_METHODS = [
     "GET",
     "POST",
@@ -145,7 +133,6 @@ CORS_ALLOW_METHODS = [
     "DELETE",
     "OPTIONS",
 ]
-
 CORS_ALLOW_HEADERS = [
     "accept",
     "accept-encoding",
@@ -158,6 +145,21 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
 ]
 
+
+
+# CSRF
+CSRF_TRUSTED_ORIGINS = ALLOWED_LIST
+CSRF_COOKIE_SAMESITE = os.getenv('CSRF_COOKIE_SAMESITE')
+CSRF_COOKIE_SECURE = bool(os.getenv('CSRF_COOKIE_SECURE'))
+CSRF_COOKIE_HTTPONLY = bool(os.getenv('CSRF_COOKIE_HTTPONLY'))
+
+# secure
+SECURE_BROWSER_XSS_FILTER = bool(os.getenv('SECURE_BROWSER_XSS_FILTER'))
+SECURE_CONTENT_TYPE_NOSNIFF = bool(os.getenv('SECURE_CONTENT_TYPE_NOSNIFF'))
+
+SESSION_COOKIE_SECURE = bool(os.getenv('SESSION_COOKIE_SECURE'))
+SESSION_COOKIE_SAMESITE = os.getenv('SESSION_COOKIE_SAMESITE')
+
 # REST Framework settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -167,22 +169,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
 }
-
-# JWT settings
-# SIMPLE_JWT = {
-#     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
-#     'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
-#     'ROTATE_REFRESH_TOKENS': True,
-#     'BLACKLIST_AFTER_ROTATION': True,
-#     'UPDATE_LAST_LOGIN': True,
-#     'ALGORITHM': 'HS256',
-#     'SIGNING_KEY': SECRET_KEY,  # 여기를 수정했습니다
-#     'VERIFYING_KEY': None,
-#     'AUTH_HEADER_TYPES': ('Bearer',),
-#     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
-#     'USER_ID_FIELD': 'id',
-#     'USER_ID_CLAIM': 'user_id',
-# }
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
@@ -216,25 +202,6 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-# Security settings
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-CSRF_COOKIE_SAMESITE = 'NONE' if DEV else 'LAX'
-CSRF_COOKIE_SECURE = False
-CSRF_COOKIE_HTTPONLY = True
-CSRF_TRUSTED_ORIGINS = [
-    'http://winwindeal.shop',
-    'https://winwindeal.shop',
-    'http://www.winwindeal.shop',
-    'https://www.winwindeal.shop',
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-]
-SESSION_COOKIE_SECURE = False
-SESSION_COOKIE_SAMESITE = 'NONE' if DEV else 'LAX'
-
-
-
 # Kakao OAuth settings
 KAKAO_REST_API = os.getenv('KAKAO_REST_API')
 KAKAO_CALLBACK_URL = os.getenv('KAKAO_CALLBACK_URL',"http://127.0.0.1:8000/user/accounts/kakao/callback/")
@@ -244,4 +211,3 @@ FRONTEND_URL = os.getenv('FRONTEND_URL',"http://localhost:3000")
 LOGIN_URL = os.getenv('LOGIN_URL', '')
 LOGIN_REDIRECT_URL = os.getenv('LOGIN_REDIRECT_URL','')
 LOGOUT_REDIRECT_URL = os.getenv('LOGOUT_REDIRECT_URL','')
-
