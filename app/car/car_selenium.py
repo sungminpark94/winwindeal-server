@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
@@ -14,13 +15,13 @@ def convert_to_int(value):
         return 0
     # 숫자 문자열에서 쉼표 제거 후 정수로 변환
     return int(value.replace(',', ''))
-
 def search_car_by_number(car_number):
     options = Options()
     options.add_argument("--headless=new")  # 헤드리스 모드 활성화
     options.add_argument("--window-size=1920,1080")  # 창 크기 설정
     options.add_experimental_option("detach", True)
 
+    service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(ChromeDriverManager().install(),options=options)
 
     try:
