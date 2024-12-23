@@ -1,4 +1,5 @@
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
@@ -20,7 +21,7 @@ def search_car_by_number(car_number):
     options.add_argument("--window-size=1920,1080")  # 창 크기 설정
     options.add_experimental_option("detach", True)
 
-    driver = webdriver.Chrome(options=options)
+    driver = webdriver.Chrome(ChromeDriverManager().install(),options=options)
 
     try:
         url = "https://www.car365.go.kr/web/contents/usedcar_carcompare.do"
