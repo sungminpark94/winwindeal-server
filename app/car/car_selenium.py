@@ -15,18 +15,52 @@ def convert_to_int(value):
         return 0
     # 숫자 문자열에서 쉼표 제거 후 정수로 변환
     return int(value.replace(',', ''))
-def search_car_by_number(car_number):
-    options = Options()
-    options.add_argument("--headless=new")  # 헤드리스 모드 활성화
-    options.add_argument("--window-size=1920,1080")  # 창 크기 설정
-    options.add_experimental_option("detach", True)
 
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=options)
+def search_car_by_number(car_number):
+#     options = Options()
+#     options.add_argument("--headless=new")  # 헤드리스 모드 활성화
+#     options.add_argument("--window-size=1920,1080")  # 창 크기 설정
+#     options.add_experimental_option("detach", True)
+
+#     service = Service(ChromeDriverManager().install())
+#     driver = webdriver.Chrome(service=service, options=options)
+
+#     try:
+#         url = "https://www.car365.go.kr/web/contents/usedcar_carcompare.do"
+#         driver.get(url)
+
+    options = Options()
+    # 필수적인 headless 옵션들
+    options.add_argument('--headless=new')
+    options.add_argument('--no-sandbox')  # 리눅스 환경에서 필수
+    options.add_argument('--disable-dev-shm-usage')  # 메모리 문제 방지
+    options.add_argument('--disable-gpu')  # 리눅스에서 필요
+    options.add_argument('--window-size=1920,1080')
+    options.add_argument('--disable-extensions')
+    options.add_argument('--ignore-certificate-errors')
+    
+    # 로깅 관련 옵션
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.add_experimental_option('detach', True)
 
     try:
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=options)
+
         url = "https://www.car365.go.kr/web/contents/usedcar_carcompare.do"
         driver.get(url)
+
+        # 명시적 대기 추가 (더 안정적)
+        wait = WebDriverWait(driver, 10)
+        search_input = wait.until(
+            EC.presence_of_element_located((By.ID, "searchStr"))
+        )
+        search_input.send_keys(car_number)
+        
+        search_button = wait.until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, ".btn_soldvehicle"))
+        )
+        search_button.click()
 
         # 결과 로딩 대기
         time.sleep(2)
