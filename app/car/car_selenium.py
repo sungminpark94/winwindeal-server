@@ -43,8 +43,11 @@ def search_car_by_number(car_number):
     # 로깅 관련 옵션
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     options.add_experimental_option('detach', True)
+    
 
     try:
+        print ('@@@@@@@@@@service@@@@@@@@@@')
+
         service = Service(ChromeDriverManager().install())
         print ('@@@@@@@@@@service@@@@@@@@@@')
         print(service)
