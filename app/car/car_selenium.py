@@ -46,7 +46,11 @@ def search_car_by_number(car_number):
 
     try:
         service = Service(ChromeDriverManager().install())
+        print ('@@@@@@@@@@service@@@@@@@@@@')
+        print(service)
         driver = webdriver.Chrome(service=service, options=options)
+        print ('@@@@@@@@@@driver@@@@@@@@@@')
+        print(driver)
 
         url = "https://www.car365.go.kr/web/contents/usedcar_carcompare.do"
         driver.get(url)
