@@ -22,7 +22,7 @@ def search_car_by_number(car_number):
     options.add_experimental_option("detach", True)
 
     service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(ChromeDriverManager().install(),options=options)
+    driver = webdriver.Chrome(service=service, options=options)
 
     try:
         url = "https://www.car365.go.kr/web/contents/usedcar_carcompare.do"
