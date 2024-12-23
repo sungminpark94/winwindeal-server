@@ -19,6 +19,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "winwindeal.shop",
     "api.winwindeal.shop",
+    "3.38.230.69"
 ]
 
 # Application definition
