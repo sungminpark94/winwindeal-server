@@ -118,15 +118,20 @@ STATICFILES_DIRS = [
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
-    "http://winwindeal.shop",
+    # "http://winwindeal.shop",
     "https://winwindeal.shop",
-    "http://api.winwindeal.shop",
+    # "http://api.winwindeal.shop",
     "https://api.winwindeal.shop",
+    # "http://www.winwindeal.shop",
+    "https://www.winwindeal.shop"
 ]
+CORS_ORIGIN_WHITELIST = CORS_ALLOWED_ORIGINS
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = [
     "GET",
@@ -146,9 +151,13 @@ CORS_ALLOW_HEADERS = [
     "user-agent",
     "x-csrftoken",
     "x-requested-with",
+    "cache-control",
+    "pragma"
 ]
-
-
+CORS_EXPOSE_HEADERS = [
+    'Content-Type',
+    'X-CSRFToken',
+]
 
 # CSRF
 CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
@@ -159,6 +168,8 @@ CSRF_COOKIE_HTTPONLY = bool(os.getenv('CSRF_COOKIE_HTTPONLY'))
 # secure
 SECURE_BROWSER_XSS_FILTER = bool(os.getenv('SECURE_BROWSER_XSS_FILTER'))
 SECURE_CONTENT_TYPE_NOSNIFF = bool(os.getenv('SECURE_CONTENT_TYPE_NOSNIFF'))
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
 
 SESSION_COOKIE_SECURE = bool(os.getenv('SESSION_COOKIE_SECURE'))
 SESSION_COOKIE_SAMESITE = os.getenv('SESSION_COOKIE_SAMESITE')
