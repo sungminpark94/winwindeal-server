@@ -17,6 +17,7 @@ def convert_to_int(value):
     return int(value.replace(',', ''))
 
 def search_car_by_number(car_number):
+    driver = None
 #     options = Options()
 #     options.add_argument("--headless=new")  # 헤드리스 모드 활성화
 #     options.add_argument("--window-size=1920,1080")  # 창 크기 설정
@@ -111,4 +112,5 @@ def search_car_by_number(car_number):
         return {'success': False, 'error': 'Search error'}
 
     finally:
-        driver.quit()
+        if driver:  # driver가 None이 아닐 때만 quit 실행
+            driver.quit()
