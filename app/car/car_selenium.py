@@ -40,15 +40,15 @@ def search_car_by_number(car_number):
     # options.add_argument('--window-size=1920,1080')
     # options.add_argument('--disable-extensions')
     # options.add_argument('--ignore-certificate-errors')
+    # options = webdriver.ChromeOptions()
     chrome_options = webdriver.ChromeOptions()
-    # chrome_options.add_argument("--headless")
-    # chrome_options.add_argument('--no-sandbox')
-    # chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--no-sandbox')  # 필수
+    chrome_options.add_argument('--disable-dev-shm-usage')  # 필수
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--window-size=1920x1080')
     chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument(f'user-agent=M')
     chrome_options.add_argument(f'user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36')
-    # options = webdriver.ChromeOptions()
 
     
     # 로깅 관련 옵션
