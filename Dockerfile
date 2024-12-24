@@ -2,13 +2,15 @@
 FROM python:3.12-slim
 WORKDIR /usr/src
 RUN apt-get -y update
-RUN apt install -y wget
-RUN apt install -y unzip  
+RUN apt-get install -y wget curl unzip  # curl 추가
+
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN apt -y install ./google-chrome-stable_current_amd64.deb
-RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/` curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
+
+# ChromeDriver 설치 (특정 버전을 직접 지정)
+RUN wget -O /tmp/chromedriver.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.109/linux64/chromedriver-linux64.zip
 RUN mkdir chrome
-RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/src/chrome
+RUN unzip /tmp/chromedriver.zip -d /usr/src/chrome
 
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
