@@ -8,7 +8,7 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
 RUN apt -y install ./google-chrome-stable_current_amd64.deb
 
 # ChromeDriver 설치 (특정 버전을 직접 지정)
-RUN wget -O /tmp/chromedriver.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/120.0.6099.109/linux64/chromedriver-linux64.zip
+RUN wget -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.204/linux64/chromedriver-linux64.zip
 RUN mkdir chrome
 RUN unzip /tmp/chromedriver.zip -d /usr/src/chrome
 
@@ -28,7 +28,6 @@ RUN apt-get update && apt-get install -y \
     libnss3 \
     libgconf-2-4 \
     libfontconfig1 \
-    wget \
     && rm -rf /var/lib/apt/lists/*
 
 # MySQL 클라이언트 설치
