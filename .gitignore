@@ -207,3 +207,4 @@ Temporary Items
 # End of https://www.toptal.com/developers/gitignore/api/django,macos
 
 temp.py
+app/winwindeal_be/settings/settings.py
