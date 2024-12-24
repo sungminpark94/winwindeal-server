@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from car.car_selenium import search_car_by_number
-from car.car_selenium import search_car_by_number
 from rest_framework import status
 from rest_framework.response import Response
 from .models import Car, Price
@@ -253,45 +252,45 @@ def update_manual_car_info(request):
 #         }, status=status.HTTP_404_NOT_FOUND)
 
 # # 새로 추가되는 코드
-# @api_view(['POST'])
-# @authentication_classes([CookieJWTAuthentication])
-# @permission_classes([IsAuthenticated])
-# def save_car_info(request):
-#     try:
-#         # 프론트엔드에서 보내는 데이터 받기
-#         vehicle_number = request.data.get('vehicleNumber')
-#         year = request.data.get('year')
-#         name = request.data.get('name')
+@api_view(['POST'])
+@authentication_classes([CookieJWTAuthentication])
+@permission_classes([IsAuthenticated])
+def save_car_info(request):
+    try:
+        # 프론트엔드에서 보내는 데이터 받기
+        vehicle_number = request.data.get('vehicleNumber')
+        year = request.data.get('year')
+        name = request.data.get('name')
 
-#         # Car 모델 생성 또는 업데이트
-#         car, created = Car.objects.update_or_create(
-#             number=vehicle_number,
-#             defaults={
-#                 'name': name,
-#                 'year': year,
-#                 'car_type': '확인불가',
-#                 'is_manual_input': True
-#             }
-#         )
+        # Car 모델 생성 또는 업데이트
+        car, created = Car.objects.update_or_create(
+            number=vehicle_number,
+            defaults={
+                'name': name,
+                'year': year,
+                'car_type': '확인불가',
+                'is_manual_input': True
+            }
+        )
 
-#         # Price 모델 생성
-#         Price.objects.create(
-#             car=car,
-#             year=year,
-#             sell_average=0,
-#             buy_average=0,
-#             sell_count=0,
-#             buy_count=0,
-#             manual_price=None
-#         )
+        # Price 모델 생성
+        Price.objects.create(
+            car=car,
+            year=year,
+            sell_average=0,
+            buy_average=0,
+            sell_count=0,
+            buy_count=0,
+            manual_price=None
+        )
 
-#         return Response({
-#             'success': True,
-#             'message': '차량 정보가 성공적으로 저장되었습니다.'
-#         })
+        return Response({
+            'success': True,
+            'message': '차량 정보가 성공적으로 저장되었습니다.'
+        })
 
-#     except Exception as e:
-#         return Response({
-#             'success': False,
-#             'message': '차량 정보 저장에 실패했습니다.'
-#         }, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({
+            'success': False,
+            'message': '차량 정보 저장에 실패했습니다.'
+        }, status=status.HTTP_400_BAD_REQUEST)
