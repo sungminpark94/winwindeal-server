@@ -27,9 +27,9 @@ from user.autentication import CookieJWTAuthentication
 TOKEN_SETTINGS = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
-    "COOKIE_SECURE": bool(os.getenv('COOKIE_SECURE')),  # HTTPS에서만 쿠키 전송
-    "COOKIE_HTTPONLY": bool(os.getenv('COOKIE_HTTPONLY')),# JavaScript에서 쿠키 접근 불가
-    "COOKIE_SAMESITE": os.getenv('COOKIE_SAMESITE'),
+    "COOKIE_SECURE": bool(os.getenv('COOKIE_SECURE', True)),  # HTTPS에서만 쿠키 전송
+    "COOKIE_HTTPONLY": bool(os.getenv('COOKIE_HTTPONLY', 1)),# JavaScript에서 쿠키 접근 불가
+    "COOKIE_SAMESITE": os.getenv('COOKIE_SAMESITE', "None"),
     "COOKIE_DOMAIN": os.getenv('COOKIE_DOMAIN', "")  # 도메인 추가
 }
 

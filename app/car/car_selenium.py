@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 from .models import Car, Price
+import os
 
 def convert_to_int(value):
     # '-' 또는 빈 문자열인 경우 0을 반환
@@ -30,52 +31,59 @@ def search_car_by_number(car_number):
 #         url = "https://www.car365.go.kr/web/contents/usedcar_carcompare.do"
 #         driver.get(url)
 
-    options = Options()
+    # options = Options()
     # 필수적인 headless 옵션들
-    options.add_argument('--headless=new')
-    options.add_argument('--no-sandbox')  # 리눅스 환경에서 필수
-    options.add_argument('--disable-dev-shm-usage')  # 메모리 문제 방지
-    options.add_argument('--disable-gpu')  # 리눅스에서 필요
-    options.add_argument('--window-size=1920,1080')
-    options.add_argument('--disable-extensions')
-    options.add_argument('--ignore-certificate-errors')
+    # options.add_argument('--headless=new')
+    # options.add_argument('--no-sandbox')  # 리눅스 환경에서 필수
+    # options.add_argument('--disable-dev-shm-usage')  # 메모리 문제 방지
+    # options.add_argument('--disable-gpu')  # 리눅스에서 필요
+    # options.add_argument('--window-size=1920,1080')
+    # options.add_argument('--disable-extensions')
+    # options.add_argument('--ignore-certificate-errors')
+    chrome_options = webdriver.ChromeOptions()
+    # chrome_options.add_argument("--headless")
+    # chrome_options.add_argument('--no-sandbox')
+    # chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--window-size=1920x1080')
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument(f'user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36')
+    # options = webdriver.ChromeOptions()
+
     
     # 로깅 관련 옵션
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
-    options.add_experimental_option('detach', True)
+    # options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    # options.add_experimental_option('detach', True)
     
 
-    try:
-        print ('@@@@@@@@@@service@@@@@@@@@@')
-
-        service = Service(ChromeDriverManager().install())
-        print ('@@@@@@@@@@service@@@@@@@@@@')
-        print(service)
-        driver = webdriver.Chrome(service=service, options=options)
-        print ('@@@@@@@@@@driver@@@@@@@@@@')
-        print(driver)
+    try:        
+        driver_path=os.getenv('CHROM_DRIVER_PATH', ChromeDriverManager().install())
+        service = Service(driver_path)
+        driver = webdriver.Chrome(service=service, options=chrome_options)
+        # driver = webdriver.Chrome(excutable_path ='chromedriver',chrome_options=chrome_options)
 
         url = "https://www.car365.go.kr/web/contents/usedcar_carcompare.do"
         driver.get(url)
 
         # 명시적 대기 추가 (더 안정적)
-        wait = WebDriverWait(driver, 10)
-        search_input = wait.until(
-            EC.presence_of_element_located((By.ID, "searchStr"))
-        )
-        search_input.send_keys(car_number)
+        # wait = WebDriverWait(driver, 10)
+        # search_input = wait.until(
+        #     EC.presence_of_element_located((By.ID, "searchStr"))
+        # )
+        # search_input.send_keys(car_number)
         
-        search_button = wait.until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, ".btn_soldvehicle"))
-        )
-        search_button.click()
+        # search_button = wait.until(
+        #     EC.element_to_be_clickable((By.CSS_SELECTOR, ".btn_soldvehicle"))
+        # )
+        # search_button.click()
 
         # 결과 로딩 대기
-        time.sleep(2)
+        # time.sleep(2)
         
         # 차량번호 입력 및 검색
         driver.find_element(By.ID, "searchStr").send_keys(car_number)
         driver.find_element(By.CSS_SELECTOR, ".btn_soldvehicle").send_keys(Keys.ENTER)
+
         
         # 데이터 추출 로직
         try:
@@ -104,7 +112,6 @@ def search_car_by_number(car_number):
                 }
 
                 datas.append (car_info)
-
             return {
                 'exist': True,
                 'datas': datas

@@ -18,15 +18,13 @@ from rest_framework.permissions import IsAuthenticated
 @authentication_classes([CookieJWTAuthentication])
 @permission_classes([IsAuthenticated])
 def search_car_price_view(request):
-    print('1231313123213123123', request.user)
-    print(request.session.keys())
     # if not request.user.is_authenticated:
     #     return redirect("user:kakao-log-in")
     if not request.user.is_authenticated:
         return JsonResponse({'error': 'Login required'}, status=401)
     car_number = request.GET.get('number')
     car_data = search_car_by_number(car_number)
-    if not car_data ['exist'] :
+    if not car_data or not car_data['exist'] :
         #빈 데이터로 차량 정보만 저장
         car, created = Car.objects.get_or_create(
             number=car_number,
@@ -50,8 +48,10 @@ def search_car_price_view(request):
          'name' : car_data['datas'][0]['name'],
          'prices': []
     }
+    print(1, result)
 # search_result['datas']에 있는 각각의 차량 정보를 순회
     for car_info in car_data['datas']:
+        print(2, car_info)
         # 1. 차량 정보 저장
         car, created = Car.objects.update_or_create(
             number=car_number,
@@ -61,11 +61,13 @@ def search_car_price_view(request):
                 'car_type': car_info['car_type']    
             }
         )
+        print(3, car)
         
         # 2. 최소값 비교
         if car_info['sell_average'] < result['min_price']:
             result['min_price'] = car_info['sell_average']
         
+        print(4, "@@@@@@@@@@@@@@@@@@@@@@@@@@")
         # 3. 연식별 데이터 추가
         year_data = {
             'year': car_info['year'],
@@ -75,8 +77,11 @@ def search_car_price_view(request):
             'buy_count': car_info['buy_count'],
             'buy_average': car_info['buy_average']
         }
+        print(5, year_data)
         result['prices'].append(year_data)
+        print(6, result)
     
+    print(7, "end@@@@@@@@@@@@@@@@@@@@@")
     # 최종 결과 반환
     return JsonResponse({
         'message': '조회성공',
