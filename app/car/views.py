@@ -23,6 +23,8 @@ def search_car_price_view(request):
         return JsonResponse({'error': 'Login required'}, status=401)
     car_number = request.GET.get('number')
     car_data = search_car_by_number(car_number)
+    print('자동차 정보', car_data)
+
     if not car_data or not car_data['exist'] :
         #빈 데이터로 차량 정보만 저장
         car, created = Car.objects.get_or_create(
@@ -75,6 +77,7 @@ def search_car_price_view(request):
         result['prices'].append(year_data)
     
     # 최종 결과 반환
+    print('result',result)
     return JsonResponse({
         'message': '조회성공',
         'exist': True,

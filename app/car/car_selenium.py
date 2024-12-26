@@ -112,6 +112,7 @@ def search_car_by_number(car_number):
                 }
 
                 datas.append (car_info)
+            print('selenium', datas)
             return {
                 'exist': True,
                 'datas': datas
