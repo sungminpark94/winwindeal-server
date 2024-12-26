@@ -111,14 +111,24 @@ def search_car_by_number(car_number):
             for row in rows:
                 print("outerHTML:", row.get_attribute('outerHTML'))
 
+                # car_info = {
+                #     'name': row.find_element(By.CSS_SELECTOR, "td:nth-child(1)").text,
+                #     'car_type': row.find_element(By.CSS_SELECTOR, "td:nth-child(2)").text,
+                #     'year': convert_to_int(row.find_element(By.CSS_SELECTOR, "td:nth-child(3)").text),
+                #     'sell_count': convert_to_int(row.find_element(By.CSS_SELECTOR, "td:nth-child(4)").text),
+                #     'sell_average': convert_to_int(row.find_element(By.CSS_SELECTOR, "td:nth-child(5)").text),
+                #     'buy_count': convert_to_int(row.find_element(By.CSS_SELECTOR, "td:nth-child(6)").text),
+                #     'buy_average': convert_to_int(row.find_element(By.CSS_SELECTOR, "td:nth-child(7)").text)
+                # }
+
                 car_info = {
-                    'name': row.find_element(By.CSS_SELECTOR, "td:nth-child(1)").text,
-                    'car_type': row.find_element(By.CSS_SELECTOR, "td:nth-child(2)").text,
-                    'year': convert_to_int(row.find_element(By.CSS_SELECTOR, "td:nth-child(3)").text),
-                    'sell_count': convert_to_int(row.find_element(By.CSS_SELECTOR, "td:nth-child(4)").text),
-                    'sell_average': convert_to_int(row.find_element(By.CSS_SELECTOR, "td:nth-child(5)").text),
-                    'buy_count': convert_to_int(row.find_element(By.CSS_SELECTOR, "td:nth-child(6)").text),
-                    'buy_average': convert_to_int(row.find_element(By.CSS_SELECTOR, "td:nth-child(7)").text)
+                    'name': row.find_elements(By.TAG_NAME, "td")[0].get_attribute("textContent"),
+                    'car_type': row.find_elements(By.TAG_NAME, "td")[1].get_attribute("textContent"),
+                    'year': convert_to_int(row.find_elements(By.TAG_NAME, "td")[2].get_attribute("textContent")),
+                    'sell_count': convert_to_int(row.find_elements(By.TAG_NAME, "td")[3].get_attribute("textContent")),
+                    'sell_average': convert_to_int(row.find_elements(By.TAG_NAME, "td")[4].get_attribute("textContent")),
+                    'buy_count': convert_to_int(row.find_elements(By.TAG_NAME, "td")[5].get_attribute("textContent")),
+                    'buy_average': convert_to_int(row.find_elements(By.TAG_NAME, "td")[6].get_attribute("textContent"))
                 }
                 print('car_info',car_info)
 
