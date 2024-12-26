@@ -78,7 +78,7 @@ def search_car_by_number(car_number):
         # search_button.click()
 
         # 결과 로딩 대기
-        # time.sleep(2)
+        time.sleep(2)
         
         # 차량번호 입력 및 검색
         driver.find_element(By.ID, "searchStr").send_keys(car_number)
