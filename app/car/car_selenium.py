@@ -78,24 +78,19 @@ def search_car_by_number(car_number):
         # search_button.click()
 
         # 결과 로딩 대기
-        time.sleep(2)
+        # time.sleep(2)
 
         
         # 차량번호 입력 및 검색
         driver.find_element(By.ID, "searchStr").send_keys(car_number)
         driver.find_element(By.CSS_SELECTOR, ".btn_soldvehicle").send_keys(Keys.ENTER)
 
-        time.sleep(2)
-
-
-        print('selenium',driver.page_source)
-
-
         
         # 데이터 추출 로직
         try:
             # tbody 내의 tr 요소 찾기
             rows = driver.find_elements(By.CSS_SELECTOR, "#usedcarcompare_data tr")
+            print('rows',rows)
 
             #####
             # 여기에 데이터 없음 체크 추가
@@ -108,6 +103,8 @@ def search_car_by_number(car_number):
             datas = [] # 저장된 데이터 관리를 위한 리스트
             
             for row in rows:
+                print('row',row)
+
                 car_info = {
                     'name': row.find_element(By.CSS_SELECTOR, "td:nth-child(1)").text,
                     'car_type': row.find_element(By.CSS_SELECTOR, "td:nth-child(2)").text,
@@ -117,9 +114,10 @@ def search_car_by_number(car_number):
                     'buy_count': convert_to_int(row.find_element(By.CSS_SELECTOR, "td:nth-child(6)").text),
                     'buy_average': convert_to_int(row.find_element(By.CSS_SELECTOR, "td:nth-child(7)").text)
                 }
+                print('car_info',car_info)
+
 
                 datas.append (car_info)
-            print('selenium', datas)
             return {
                 'exist': True,
                 'datas': datas
