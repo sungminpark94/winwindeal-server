@@ -65,6 +65,8 @@ def search_car_by_number(car_number):
         url = "https://www.car365.go.kr/web/contents/usedcar_carcompare.do"
         driver.get(url)
 
+        wait = WebDriverWait(driver, 2)  # 10초로 증가
+
         # 명시적 대기 추가 (더 안정적)
         # wait = WebDriverWait(driver, 10)
         # search_input = wait.until(
@@ -107,7 +109,7 @@ def search_car_by_number(car_number):
             datas = [] # 저장된 데이터 관리를 위한 리스트
             
             for row in rows:
-                print('row',row)
+                print("outerHTML:", row.get_attribute('outerHTML'))
 
                 car_info = {
                     'name': row.find_element(By.CSS_SELECTOR, "td:nth-child(1)").text,
