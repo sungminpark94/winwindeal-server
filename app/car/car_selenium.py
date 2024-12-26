@@ -79,10 +79,17 @@ def search_car_by_number(car_number):
 
         # 결과 로딩 대기
         time.sleep(2)
+
         
         # 차량번호 입력 및 검색
         driver.find_element(By.ID, "searchStr").send_keys(car_number)
         driver.find_element(By.CSS_SELECTOR, ".btn_soldvehicle").send_keys(Keys.ENTER)
+
+        time.sleep(2)
+
+
+        print('selenium',driver.page_source)
+
 
         
         # 데이터 추출 로직
