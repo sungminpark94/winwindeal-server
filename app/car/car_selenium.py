@@ -85,11 +85,15 @@ def search_car_by_number(car_number):
         driver.find_element(By.ID, "searchStr").send_keys(car_number)
         driver.find_element(By.CSS_SELECTOR, ".btn_soldvehicle").send_keys(Keys.ENTER)
 
+        wait = WebDriverWait(driver, 2)
+
+
         
         # 데이터 추출 로직
         try:
             # tbody 내의 tr 요소 찾기
-            rows = driver.find_elements(By.CSS_SELECTOR, "#usedcarcompare_data tr")
+            rows = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "#usedcarcompare_data tr")))
+          
             print('rows',rows)
 
             #####
